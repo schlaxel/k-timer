@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import Timer from './src/components/timer';
+import { View, StyleSheet, ScrollView, StatusBar, SafeAreaView } from 'react-native';
+import AllClocks from './src/components/allClocks';
+import BottomNav from './src/components/bottomNav';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -10,23 +11,45 @@ export default function App() {
     'Ssans': require('./assets/ssans.ttf'),
   });
 
+  const initArr = ['timer'];
+  const [clockArr, setClockArr] = useState(initArr);
+
+  const addTimer = () => {
+    const arr = clockArr;
+    setClockArr(arr.concat('timer'));
+  }
+
+  const addCountdown = () => {
+
+  }
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-      <View style={styles.container}>
+      <View style={styles.outer}>
         <StatusBar barStyle="light-content" />
-        <Timer />
+        <SafeAreaView style={styles.container}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <AllClocks clockArr={clockArr} />
+          </ScrollView>
+          <BottomNav addTimer={addTimer} addCountdown={addCountdown} />
+        </SafeAreaView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outer: {
     flex: 1,
-    backgroundColor: '#121212',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#121212'
   },
+  container: {
+    flex: 1
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center'
+  }
 });
