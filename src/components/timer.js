@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 import Button from './button';
 
-const Timer = () => {
+const Timer = ({ index, changeText, obj }) => {
     const [millis, setMillis] = useState(0);
     const [intervalId, setIntervalId] = useState();
     const [isStopped, setIsStopped] = useState(false);
@@ -31,12 +31,12 @@ const Timer = () => {
             setIsStopped(true);
         }
     }
-
+    console.log(obj);
     return (
         <View style={styles.container}>
             <TextInput 
-                value={timerName}
-                onChangeText={text => setTimerName(text)}
+                value={obj.name}
+                onChangeText={text => changeText(index, text)}
                 placeholder="Set a name"
                 placeholderTextColor="#444"
                 style={styles.timerName}

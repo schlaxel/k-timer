@@ -6,27 +6,27 @@ import Button from './button';
 
 import Timer from './timer';
 
-const AllClocks = ({ clockArr }) => {
+const AllClocks = ({ clockArr, rmClock, changeText }) => {
 
     const testFunc = (test) => {
-        
+
     }
 
     const renderClocks = () => {
         const renderArr = [];
         clockArr.map((val, index) => {
-            val === 'timer' ?
+            val.type === 'timer' ?
             renderArr.push(
-                <SwipeRow style={{ width: '100%' }} onSwipeValueChange={test => testFunc(test)} key={index} leftOpenValue={75} rightOpenValue={-75}>
+                <SwipeRow style={{ width: '100%' }} key={index} leftOpenValue={75} rightOpenValue={-75}>
                     <View style={styles.swipeDelete}>
-                        <Button name="md-close" />
-                        <Button name="md-close" />
+                        <Button onPress={() => rmClock(index)} name="md-close" />
+                        <Button onPress={() => rmClock(index)} name="md-close" />
                     </View>
                     <View style={styles.swipeTimer}>
-                        <Timer />
+                        <Timer changeText={changeText} index={index} obj={val} />
                     </View>
                 </SwipeRow>
-                ) :
+            ) :
             null;
         });
         return renderArr;

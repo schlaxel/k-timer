@@ -11,16 +11,30 @@ export default function App() {
     'Ssans': require('./assets/ssans.ttf'),
   });
 
-  const initArr = ['timer'];
-  const [clockArr, setClockArr] = useState(initArr);
+  const initTimerObj = {type: 'timer', name: '', millis: 0};
+
+  const [clockArr, setClockArr] = useState([initTimerObj]);
 
   const addTimer = () => {
     const arr = clockArr;
-    setClockArr(arr.concat('timer'));
+    setClockArr(arr.concat(initTimerObj));
   }
 
   const addCountdown = () => {
 
+  }
+
+  rmClock = (index) => {
+    const array = [...clockArr];
+    console.log(array, index);
+    array.splice(index, 1);
+    setClockArr(array);
+  }
+
+  changeText = (index, text) => {
+    const array = [...clockArr];
+    array[index].name = text;
+    setClockArr(array);
   }
 
   if (!fontsLoaded) {
@@ -31,7 +45,7 @@ export default function App() {
         <StatusBar barStyle="light-content" />
         <SafeAreaView style={styles.container}>
           <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <AllClocks clockArr={clockArr} />
+            <AllClocks changeText={changeText} rmClock={rmClock} clockArr={clockArr} />
           </ScrollView>
           <BottomNav addTimer={addTimer} addCountdown={addCountdown} />
         </SafeAreaView>
